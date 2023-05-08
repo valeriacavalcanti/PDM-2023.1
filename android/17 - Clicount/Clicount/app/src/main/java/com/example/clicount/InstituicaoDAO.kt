@@ -28,9 +28,9 @@ class InstituicaoDAO {
     fun get(): MutableList<Instituicao>{
         val lista = mutableListOf<Instituicao>()
         val colunas = arrayOf("id", "nome", "contador")
-        val c = this.banco.readableDatabase.query("instituicao", colunas, null, null, null, null, "nome")
+        val c = this.banco.readableDatabase.query("instituicao", colunas, null, null, null, null, "contador desc")
         c.moveToFirst()
-        Log.i("APPBANCO", lista.toString())
+//        Log.i("APPBANCO", lista.toString())
         for (i in 1..c.count){
             val id = c.getInt(0)
             val nome = c.getString(1)
@@ -38,7 +38,7 @@ class InstituicaoDAO {
             lista.add(Instituicao(id, nome, contador))
             c.moveToNext()
         }
-        Log.i("APPBANCO", lista.toString())
+//        Log.i("APPBANCO", lista.toString())
         return lista
     }
 
@@ -58,14 +58,23 @@ class InstituicaoDAO {
     }
 
     fun update(instituicao: Instituicao){
-
+        val where = "id = ?"
+        val pWhere = arrayOf(instituicao.id.toString())
+        val cv = ContentValues().apply {
+            put("contador", instituicao.contador + 1)
+        }
+        this.banco.writableDatabase.update("instituicao", cv, where, pWhere)
     }
 
     fun delete(id: Int){
-
+        val where = "id = ?"
+        val pWhere = arrayOf(id.toString())
+        this.banco.writableDatabase.delete("instituicao", where, pWhere)
     }
 
     fun delete(instituicao: Instituicao){
-
+        val where = "id = ?"
+        val pWhere = arrayOf(instituicao.id.toString())
+        this.banco.writableDatabase.delete("instituicao", where, pWhere)
     }
 }

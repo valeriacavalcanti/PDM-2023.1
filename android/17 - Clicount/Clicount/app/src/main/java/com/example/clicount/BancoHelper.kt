@@ -7,7 +7,7 @@ import android.util.Log
 
 class BancoHelper(context: Context): SQLiteOpenHelper(context, "dados.db", null, 1) {
     override fun onCreate(db: SQLiteDatabase?) {
-        var sql = "create table instituicao(id integer autoincrement not null primary key, "
+        var sql = "create table instituicao(id integer primary key autoincrement not null, "
         sql += "nome text, contador integer)"
 //        Log.i("APPBANCO", sql)
         db?.execSQL(sql)
